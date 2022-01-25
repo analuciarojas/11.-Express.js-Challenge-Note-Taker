@@ -1,40 +1,14 @@
-const fs = require("fs");
-const path = require("path");
+var path = require("path");
+var fs = require("fs");
 
+module.exports = function (app) {
+  // Set GET Requests and handles
 
-function createNewNote(body, notesArray) {
-    const note = body;
-    notesArray.push(note);
+  app.get("/notes", function (req, res) {
+    res.sendFile(path.join(__dirname, "../public/notes.html"));
+  });
 
-    fs.writeFileSync(
-        path.join(__dirname, '../db/db.json'),
-        JSON.stringify({
-            notes: notesArray
-        }, null, 2)
-    )
-
-    return note;
-}
-
-function deleteNote(notesArray, id) {
-    let deleteID = parseInt(id);
-    notesArray.splice(deleteID, 1);
-
-    // This loop re-writes the indexes for the remaining notes.
-    for (let i = deleteID; i < notesArray.length; i++) {
-        notesArray[i].id = i.toString();
-    }
-
-    fs.writeFileSync(
-        path.join(__dirname, '../db/db.json'),
-        JSON.stringify({
-            notes: notesArray
-        }, null, 2)
-    )
-}
-
-
-module.exports = {
-    createNewNote,
-    deleteNote
+  app.get("*", function (req, res) {
+    res.sendFile(path.join(__dirname, "../public/index.html"));
+  });
 };
