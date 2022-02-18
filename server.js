@@ -11,16 +11,17 @@ const path = require('path');
 // Set express app 
 const app = express();
 
-// Require route files
-
-require("./routes/api-route")(app);
-require("./routes/html-route")(app);
-
 // Handling incoming data parsing
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static(__dirname + "/public"));
+
+// Require route files
+
+require("./routes/api-route")(app);
+require("./routes/html-route")(app);
+
 
 // Set listener
 
