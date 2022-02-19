@@ -22,7 +22,29 @@ router.post("/notes", (req, res) => {
   console.log(noteBase);
   // Push note to database file
   db.push(noteBase);
+  // Write updated array as db and Render
   fs.writeFileSync("./db/db.json", JSON.stringify(db), function (err) {
+    if (err) throw err;
+  });
+  res.json(db);
+});
+
+// Delete request function 
+
+router.delete("/notes/:id", function (req, res) {
+  // Array for notes that will stay
+  var notesSave = [];
+  // For loop to keep notes with different ID that the one to erase
+  
+  for (var i = 0; i < db.length; i++) {
+    if (db[i].id != req.params.id) {
+      notesSave.push(db[i]);
+    }
+  }
+  // Set db array to new saved notes
+  db = notesSave;
+  // Write updated array as db and Render
+  fs.writeFileSync("./db/db.json",JSON.stringify(db), function (err) {
     if (err) throw err;
   });
   res.json(db);
