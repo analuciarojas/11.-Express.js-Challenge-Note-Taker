@@ -1,13 +1,33 @@
 var db = require("../db/db.json");
 var fs = require("fs");
+const path = require('path');
+const router = require("express").Router();
 
+// Set get db info
+router.get("/notes", (req, res) => {
+  db = JSON.parse(fs.readFileSync("./db/db.json", "utf-8"));
+  res.json(db);
+});
 
-module.exports = function (app) {
-  // Set GET Requests and handles
+// POST request
 
-  app.get("/api/notes", function (req, res) {
-    // Return saved notes as JSON
-    res.json(db);
+router.post("/notes", (req, res) => {
+// Note structure object
+  let noteBase = {
+    title: req.body.title,
+    text: req.body.text,
+    // Create random id number
+    id: Math.floor(Math.random() * 10000),
+  };
+  console.log(noteBase);
+  // Push note to database file
+  db.push(noteBase);
+  fs.writeFileSync("./db/db.json", JSON.stringify(db), function (err) {
+    if (err) throw err;
   });
+  res.json(db);
+});
 
-};
+module.exports = router;
+
+
