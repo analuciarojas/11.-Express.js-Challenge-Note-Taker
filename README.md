@@ -1,7 +1,5 @@
 # 11.-Express.js-Challenge-Note-Taker
 
-# SQL Employee Tracker
-
 ![JavaScript](https://img.shields.io/badge/JavaScript-65.9%20%25-yellow)
 
 ![HTML](https://img.shields.io/badge/HTML-23.2%20%25-orange)
